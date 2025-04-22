@@ -1,0 +1,28 @@
+Python
+      import sqlite3
+      import pandas as pd
+          def extract_data_from_sql(database_path, query):
+ conn = sqlite3.connect(database_path)
+ df = pd.read_sql_query(query, conn)
+ conn.close()
+ return df
+       sql_query = "SELECT * FROM customer_data;"
+       customer_df = extract_data_from_sql('customer_database.db', sql_query)
+
+Python
+  import pandas as pd
+ def clean_data(df):
+      df = df.dropna() # Remove rows with missing values
+     df = df.drop_duplicates() #remove duplicate rows
+     df['date'] = pd.to_datetime(df['date']) #convert date column to datetime.
+     return df
+ cleaned_customer_df = clean_data(customer_df)
+
+   Python
+       import pandas as pd
+         def create_age_bins(df):
+                 bins = [18, 25, 35, 50, 65, 100]
+                  labels = ['18-24', '25-34', '35-49', '50-64', '65+']
+  df['age_group'] = pd.cut(df['age'], bins=bins, labels=labels, right=False)
+                return df
+     transformed_customer_df = create_age_bins(cleaned_customer_df)
